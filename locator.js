@@ -91,6 +91,11 @@ for (let i of htmlcol2) {
   }
 }
 
+function round2(number) {
+  return (String(number).split('.')[0] + '.' + 
+    String(number).split('.')[1].slice(0, 2))
+}
+
 document.addEventListener("click", (event) => {
   if (event.metaKey) {
     let pageY = event.pageY - 16
@@ -127,51 +132,81 @@ document.addEventListener("click", (event) => {
     let hypotenuseabs = Math.ceil(Math.sqrt(Math.pow((pageX - 1000), 2) +
       Math.pow((pageY - 1000), 2)))
     alert(
-      lastitem[2] + "\n" +
-        "left:" + (xdifreg + lastitem[0]) + "pxtop:" + (ydifreg +
-        lastitem[1]) + "px\n" + xdifreg + "," + ydifreg +
-      /* DEFAULT */ "\n<pre style=\"left:" + (pageX) + "pxtop:" +
-        (pageY) + "px\"></pre>" +
-      /* Circles (conceived uses hypotenuseabs) */
-      "\n<svg width=\"" + (2 * hypotenuse) + "\" height=\"" +
-        (2 * hypotenuse) + "\" style=\"top:" +
-        (lastclick[1] - (hypotenuse)) + "left:" + (lastclick[0] -
-        (hypotenuse)) + "transform:rotate(" + rotateby + "rad)" +
-        "\"><circle id=\"\" cx=\"" + hypotenuse +
-        "\" cy=\"" + hypotenuse + "\" r=\"" + (hypotenuse - 20) +
-        "\" /><text><textPath href=\"#\"></textPath></text></svg>" +
-      // /* FRACTURED */ "\n<pre style=\"left:" + (pageX) + "pxtop:" +
-      //   (pageY) + "pxtransform:rotate(" + String(localrotate).slice(0,5) +
-      //   "rad)letter-spacing:" + String(hypotenuse / 5).slice(0,4) +
-      //   "px\" class=\"rotated\"></pre>" +
-      /* FLURRY */ "\n<pre style=\"left:" + (pageX) + "pxtop:" +
-        (pageY) + "pxtransform:rotate(" + String(localrotate).slice(
-        0,5) + "rad)" + "\" class=\"rotated\"></pre>" +
-      // /* FIRE */ "\n<pre style=\"left:" + (pageX) + "pxtop:" + (pageY) +
+      // ITEM CLICKED
+      lastitem[2] + "\n"
+      // RELOCATE
+      +  "left:" + (xdifreg + lastitem[0]) + "px;top:" + (ydifreg +
+        lastitem[1]) + "px;"
+      // DIFFS
+      + "\n" + xdifreg + "," + ydifreg +
+      // DEFAULT
+      "\n<pre style=\"left:" + (pageX) + "px;top:" +
+        (pageY) + "px;\"></pre>"
+      // TEXT CIRCLES
+      // "\n<svg width=\"" + (2 * hypotenuse) + "\" height=\"" +
+      //   (2 * hypotenuse) + "\" style=\"top:" +
+      //   (lastclick[1] - (hypotenuse)) + ";left:" + (lastclick[0] -
+      //   (hypotenuse)) + ";transform:rotate(" + rotateby + "rad)" +
+      //   "\"><circle id=\"\" cx=\"" + hypotenuse +
+      //   "\" cy=\"" + hypotenuse + "\" r=\"" + (hypotenuse - 20) +
+      //   "\" /><text><textPath href=\"#\"></textPath></text></svg>"
+      // FADE (opacity and spacing based on distance from top of screen)
+      + '\n<pre style="left:' + Number(pageX) + 'px;top:' + (pageY) + 
+        'px;font-size:' + round2((event.clientY / window.innerHeight) + 1) + 
+        'em;opacity:' + round2(1 - (event.clientY / (window.innerWidth + 50))) + 
+        ';letter-spacing:' + round2((event.clientY / window.innerHeight)) +
+        'em;">'
+      + '\n<pre style="left:' + Number(pageX) + 'px;top:' + (pageY) + 
+        'px;font-size:' + 
+        round2(((event.clientY / window.innerHeight) + 1) * 2) + 
+        'em;opacity:' + 
+        round2((1 - (event.clientY / (window.innerWidth + 50))) / 2) + 
+        ';letter-spacing:' + 
+        round2(((event.clientY / window.innerHeight) * 2)) +
+        'em;">'
+      // FRACTURED (rotate and space to click)
+      // + "\n<pre style=\"left:" + (pageX) + "px;top:" +
+      //   (pageY) + "px;transform:rotate(" + String(localrotate).slice(0,5) +
+      //   "rad);letter-spacing:" + String(hypotenuse / 5).slice(0,4) +
+      //   "px;\" class=\"rotated\"></pre>"
+      // FLURRY (rotate to click)
+      // + "\n<pre style=\"left:" + (pageX) + "px;top:" +
+      //   (pageY) + "px;transform:rotate(" + String(localrotate).slice(
+      //   0,5) + "rad);" + "\" class=\"rotated\"></pre>"
+      // FIRE (rotate through specific center)
+      // + "\n<pre style=\"left:" + (pageX) + "pxtop:" + (pageY) +
       //   "pxtransform:rotate(" + String(rotateby).slice(0,5) + "rad)" +
-      //   "\" class=\"rotated\"></pre>" +
-      // WAKE "\n<pre style=\"left:" + (pageX) + "pxtop:" +
+      //   "\" class=\"rotated\"></pre>"
+      // WAKE (circles around specific center)
+      // + "\n<pre style=\"left:" + (pageX) + "pxtop:" +
       //   (pageY) +
       //   "pxtransform:rotate(" + String(rotateby).slice(0,5) + "rad) " +
       //   "opacity:" + String((Math.sqrt(Math.pow((pageX - 1020), 2) +
       //     Math.pow((pageY - 1030), 2))) / 1000).slice(0,4) +
       //   "\" class=\"rotated\"></pre>" +
-      "\n" + window.scrollX + " " + window.scrollY +
-      // _INDEX "\n" + "<svg width=\"" + (xdif + 10) + "\" height=\"" +
-        // (ydif + 10) +
-        //   "\" style=\"left:" + (Math.min(pageX, lastclick[0]) - 10 -
-        // 50) +
-        //   "pxtop:" + (Math.min(pageY, lastclick[1]) - 36) +
-        // "px\"><line marker-end=\"url(#arrowhead)\" x1=\"" +
-        // String(Math.abs(xdif) + 15) +
-        //   "\" y1=\"0\" x2=\"10\" y2=\"" + String(Math.abs(ydif) + 10) +
-        // "\" /></svg>"
-      "\n" + "<svg width=\"" + (xdif + svgmargin) + "\" height=\"" + (ydif +
-        svgmargin) +
-        "\" style=\"left:" + left +
-        "pxtop:" + top + "px\"><path style=\"stroke:white\" id=\"\" d=\"M" +
-        startX + "," + startY + " Q" + Qx + "," + Qy + " " + endX + "," +
-        endY + "\" /><text><textPath href=\"#\"></textPath></text></svg>"
+      // SCROLL 
+      // + "\n" + window.scrollX + " " + window.scrollY
+      // ECHOES (opacity and font size)
+      // + '\n<pre style=\"left:' + (pageX) + "px;top:" +
+      //   (pageY) + "px;font-size:" + Math.abs(ydifreg) + 'px;' + 'opacity:' + 
+      //   String(Math.pow(Math.E, ((-6 * Math.abs(ydifreg)) / 
+      //   1300))).slice(0, 4) + ';"></pre>'
+      // _INDEX 
+      // + "\n" + "<svg width=\"" + (xdif + 10) + "\" height=\"" +
+      //   (ydif + 10) +
+      //   "\" style=\"left:" + (Math.min(pageX, lastclick[0]) - 10 - 50) +
+      //   "pxtop:" + (Math.min(pageY, lastclick[1]) - 36) +
+      //   "px\"><line marker-end=\"url(#arrowhead)\" x1=\"" +
+      //   String(Math.abs(xdif) + 15) +
+      //   "\" y1=\"0\" x2=\"10\" y2=\"" + String(Math.abs(ydif) + 10) +
+      //   "\" /></svg>"
+      // CURVES
+      // + "\n" + "<svg width=\"" + (xdif + svgmargin) + "\" height=\"" + 
+      //   (ydif + svgmargin) +
+      //   "\" style=\"left:" + left +
+      //   "pxtop:" + top + "px\"><path style=\"stroke:white\" id=\"\" d=\"M" +
+      //   startX + "," + startY + " Q" + Qx + "," + Qy + " " + endX + "," +
+      //   endY + "\" /><text><textPath href=\"#\"></textPath></text></svg>"
     )
   } else {
     lastclick = [event.pageX, event.pageY]
